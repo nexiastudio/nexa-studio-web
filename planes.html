@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes | Nexia Studio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://res.cloudinary.com/dzy2rrwao/image/upload/v1748024797/ChatGPT_Image_23_may_2025_03_26_25_p.m._rog8kh.png') center center no-repeat;
+      background-size: cover;
+      min-height: 100vh;
+      color: #1E1E1E;
+      position: relative;
+    }
+    .filtro-fondo {
+      position: fixed;
+      z-index: 0;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(247,246,250,0.96);
+      pointer-events: none;
+    }
+    header {
+      background: #6C3BD2CC;
+      color: white;
+      padding: 2rem 1rem 1.5rem 1rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    .header-logo-bg {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto 1.2rem auto;
+      min-height: 120px;
+      background: url('https://res.cloudinary.com/dzy2rrwao/image/upload/v1748023059/logo_baner_rydrs9.png') center center no-repeat;
+      background-size: contain;
+      background-color: #6C3BD2;
+      height: 120px;
+      border-radius: 18px;
+    }
+    .planes-container {
+      max-width: 670px;
+      margin: 50px auto 32px auto;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 32px rgba(80,56,170,0.09);
+      padding: 2.3rem 1.2rem 2.2rem 1.2rem;
+      position: relative;
+      z-index: 2;
+    }
+    .planes-titulo {
+      font-family: 'Montserrat', sans-serif;
+      color: #6C3BD2;
+      font-size: 2rem;
+      margin-bottom: 2.3rem;
+      text-align: center;
+      font-weight: 700;
+    }
+    .plan-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+      margin-bottom: 2.3rem;
+      align-items: stretch;
+    }
+    .plan-btn {
+      background: #EFE6FD;
+      color: #3B2278;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.17rem;
+      border: none;
+      border-radius: 14px;
+      padding: 1.1rem 1.7rem;
+      box-shadow: 0 2px 10px rgba(60,28,123,0.05);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.19s, color 0.15s;
+      outline: none;
+      letter-spacing: 0.2px;
+    }
+    .plan-btn.active, .plan-btn:focus {
+      background: #6C3BD2;
+      color: #fff;
+      box-shadow: 0 3px 13px rgba(108,59,210,0.10);
+    }
+    .plan-detalle {
+      display: none;
+      background: #fff;
+      margin: 1.6rem 0 1.5rem 0;
+      padding: 2.1rem 1.5rem 2.1rem 1.5rem;
+      border-radius: 18px;
+      box-shadow: 0 3px 18px rgba(60,28,123,0.10);
+      border-left: 7px solid #6C3BD2;
+      animation: fadeIn 0.5s;
+    }
+    .plan-detalle.active {
+      display: block;
+      animation: fadeIn 0.5s;
+    }
+    .plan-nombre {
+      font-family: 'Montserrat', sans-serif;
+      color: #6C3BD2;
+      font-weight: bold;
+      font-size: 1.25rem;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.3px;
+    }
+    .plan-desc {
+      color: #444;
+      font-size: 1.10rem;
+      margin-bottom: 1.5rem;
+      margin-top: 0.2rem;
+    }
+    .plan-incluye-titulo {
+      font-weight: 700;
+      color: #3B2278;
+      margin: 1.6rem 0 0.7rem 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.13rem;
+      letter-spacing: 0.5px;
+    }
+    .plan-lista {
+      color: #333;
+      margin-bottom: 1.25rem;
+      margin-top: 0;
+      padding-left: 22px;
+      font-size: 1.06rem;
+    }
+    .plan-lista li {
+      margin-bottom: 1.1rem;
+      line-height: 1.6;
+    }
+    .plan-resumen {
+      font-size: 1.04rem;
+      background: #F7F6FA;
+      color: #6C3BD2;
+      border-radius: 7px;
+      padding: 0.75rem 1.1rem;
+      margin: 1.2rem 0 0.6rem 0;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      display: inline-block;
+    }
+    .plan-final {
+      display: flex;
+      gap: 1.1rem;
+      align-items: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .plan-precio {
+      color: #fff;
+      background: #6C3BD2;
+      font-size: 1.23rem;
+      font-weight: bold;
+      padding: 0.9rem 1.7rem;
+      border-radius: 11px;
+      letter-spacing: 1px;
+      box-shadow: 0 1px 5px rgba(60,28,123,0.10);
+      margin: 0;
+      display: inline-block;
+    }
+    .btn-formulario {
+      background: #6C3BD2;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.09rem;
+      padding: 0.85rem 2.1rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      text-decoration: none;
+      box-shadow: 0 2px 12px rgba(60,28,123,0.09);
+      transition: background 0.19s;
+      display: inline-block;
+      letter-spacing: 0.5px;
+    }
+    .btn-formulario:hover {
+      background: #5227a3;
+      color: #fff;
+    }
+    .btn-volver {
+      display: block;
+      margin: 2.1rem auto 0 auto;
+      background: #EAEAEA;
+      color: #6C3BD2;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      padding: 0.9rem 2.1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(60,28,123,0.08);
+      border: none;
+      transition: background 0.16s, color 0.16s;
+      text-align: center;
+      width: fit-content;
+      cursor: pointer;
+    }
+    .btn-volver:hover {
+      background: #6C3BD2;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .planes-container { padding: 1.2rem 0.2rem 1.5rem 0.2rem; }
+      .plan-detalle { padding: 1rem 0.4rem 1.1rem 0.4rem; }
+      .planes-titulo { font-size: 1.2rem; }
+      .header-logo-bg { min-height: 70px; height: 70px; }
+      .plan-final { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(24px);}
+      to { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="filtro-fondo"></div>
+  <header>
+    <div class="header-logo-bg"></div>
+  </header>
+  <div class="planes-container">
+    <div class="planes-titulo">Elegí el plan que más se adapta a tu marca</div>
+    <div class="plan-btns">
+      <button class="plan-btn" onclick="mostrarPlan(1)" id="btn1">💼 Profesional</button>
+      <button class="plan-btn" onclick="mostrarPlan(2)" id="btn2">📈 Premium</button>
+      <button class="plan-btn" onclick="mostrarPlan(3)" id="btn3">🚀 Élite</button>
+    </div>
+    <div class="plan-detalle" id="plan1">
+      <div class="plan-nombre">💼 PLAN PROFESIONAL – “Contenido Potente”</div>
+      <div class="plan-desc">Ideal para marcas que quieren mantener una presencia activa, profesional y atractiva en redes sin complicarse.</div>
+      <div class="plan-incluye-titulo">Incluye:</div>
+      <ul class="plan-lista">
+        <li>8 publicaciones mensuales<br>
+          <span style="color:#555;">De alto impacto, con estética profesional y estilo visual adaptado a tu marca.</span></li>
+        <li>4 reels mensuales<br>
+          <span style="color:#555;">Editados estratégicamente para generar conexión, visibilidad y movimiento en tu perfil.</span></li>
+        <li>8 historias mensuales<br>
+          <span style="color:#555;">De alto impacto y con un estilo único, profesional y coherente con tu identidad.</span></li>
+        <li>Textos profesionales<br>
+          <span style="color:#555;">Redactados por Nexia según el tono y objetivos de tu marca.</span></li>
+        <li>Diseño visual coherente<br>
+          <span style="color:#555;">Que mantiene una estética armónica y atractiva en tu perfil.</span></li>
+        <li>Calendario mensual<br>
+          <span style="color:#555;">Con fechas sugeridas y estructura estratégica de contenido.</span></li>
+        <li>Entregas semanales<br>
+          <span style="color:#555;">Todo organizado en tu carpeta de Drive, listo para usar.</span></li>
+        <li>1 revisión por contenido<br>
+          <span style="color:#555;">Para que puedas ajustar detalles antes de la entrega final.</span></li>
+        <li>🎁 BONUS: Revisión estética de tu perfil en el primer mes.</li>
+      </ul>
+      <div class="plan-resumen">👉 Vos subís el contenido. Nosotros hacemos que funcione.</div>
+      <div class="plan-final">
+        <div class="plan-precio">$149.000 ARS / mes</div>
+        <a class="btn-formulario"
+           href="https://docs.google.com/forms/d/e/1FAIpQLSfh9lFCBt77gPYY9x3VXEA8jqyzuFyi1gaBy_nO7YEvfW9ptA/viewform?usp=preview"
+           target="_blank" rel="noopener">
+           Solicitar este plan
+        </a>
+      </div>
+    </div>
+    <div class="plan-detalle" id="plan2">
+      <div class="plan-nombre">📈 PLAN PREMIUM – “Presencia Total”</div>
+      <div class="plan-desc">Para marcas que quieren destacarse y crecer en redes con contenido potente, constante y estratégico.</div>
+      <div class="plan-incluye-titulo">Incluye:</div>
+      <ul class="plan-lista">
+        <li>12 publicaciones mensuales<br>
+          <span style="color:#555;">Con enfoque visual y comercial que potencia tu identidad.</span></li>
+        <li>6 reels mensuales<br>
+          <span style="color:#555;">Producidos para atraer, emocionar y posicionar tu marca.</span></li>
+        <li>12 historias mensuales<br>
+          <span style="color:#555;">Diseñadas para conectar con tu audiencia de forma continua.</span></li>
+        <li>Textos de alto impacto<br>
+          <span style="color:#555;">Que conectan con tu comunidad y refuerzan tu mensaje.</span></li>
+        <li>Diseño visual profesional<br>
+          <span style="color:#555;">Para lograr un feed armónico, estético y atractivo.</span></li>
+        <li>Guía de publicación personalizada<br>
+          <span style="color:#555;">Qué subir, cuándo, cómo y con qué texto. Todo claro y listo.</span></li>
+        <li>Mini estrategia semanal<br>
+          <span style="color:#555;">Enfoque temático, objetivo y ajustes según respuesta del público.</span></li>
+        <li>Entregas semanales<br>
+          <span style="color:#555;">Todo el contenido del mes, organizado por semana en tu carpeta Drive.</span></li>
+        <li>2 asesorías mensuales por videollamada<br>
+          <span style="color:#555;">Para revisar resultados y ajustar la estrategia.</span></li>
+      </ul>
+      <div class="plan-resumen">👉 Nexia hace todo. Vos solo te encargás de subirlo.</div>
+      <div class="plan-final">
+        <div class="plan-precio">$199.000 ARS / mes</div>
+        <a class="btn-formulario"
+           href="https://docs.google.com/forms/d/e/1FAIpQLSfh9lFCBt77gPYY9x3VXEA8jqyzuFyi1gaBy_nO7YEvfW9ptA/viewform?usp=preview"
+           target="_blank" rel="noopener">
+           Solicitar este plan
+        </a>
+      </div>
+    </div>
+    <div class="plan-detalle" id="plan3">
+      <div class="plan-nombre">🚀 PLAN ÉLITE – “Manejo Total de Marca”</div>
+      <div class="plan-desc">Pensado para marcas que quieren delegar por completo su comunicación digital. Nexia se encarga de todo.</div>
+      <div class="plan-incluye-titulo">Incluye:</div>
+      <ul class="plan-lista">
+        <li>16 publicaciones mensuales<br>
+          <span style="color:#555;">Con alto nivel de producción, estilo y estrategia visual.</span></li>
+        <li>8 reels mensuales<br>
+          <span style="color:#555;">Diseñados para captar atención y posicionar tu marca.</span></li>
+        <li>12 historias mensuales<br>
+          <span style="color:#555;">Que mantienen tu cuenta activa, profesional y conectada.</span></li>
+        <li>Textos estratégicos<br>
+          <span style="color:#555;">Redactados para comunicar con claridad y coherencia.</span></li>
+        <li>Diseño visual completo<br>
+          <span style="color:#555;">Aplicado a cada pieza para lograr un feed impactante.</span></li>
+        <li>Manejo total de tu cuenta de Instagram<br>
+          <span style="color:#555;">Publicamos todo según calendario y automatizamos respuestas frecuentes.</span></li>
+        <li>Campañas publicitarias incluidas<br>
+          <span style="color:#555;">Facebook Ads, Instagram Ads, Google Ads (configuración y análisis).<br>
+          (El costo de pauta corre por cuenta del cliente – ver términos y condiciones)</span></li>
+        <li>Reporte mensual de resultados<br>
+          <span style="color:#555;">Con métricas y recomendaciones prácticas.</span></li>
+        <li>Asesoramiento mensual personalizado<br>
+          <span style="color:#555;">Presencial o por videollamada, según preferencia.</span></li>
+      </ul>
+      <div class="plan-resumen">👉 Vos te enfocás en tu negocio. Nexia se ocupa de todo lo demás.</div>
+      <div class="plan-final">
+        <div class="plan-precio">$249.000 ARS / mes</div>
+        <a class="btn-formulario"
+           href="https://docs.google.com/forms/d/e/1FAIpQLSfh9lFCBt77gPYY9x3VXEA8jqyzuFyi1gaBy_nO7YEvfW9ptA/viewform?usp=preview"
+           target="_blank" rel="noopener">
+           Solicitar este plan
+        </a>
+      </div>
+    </div>
+    <button class="btn-volver" onclick="volver()">← Volver</button>
+  </div>
+  <footer>
+    <p>© 2025 Nexia Studio — Todos los derechos reservados</p>
+  </footer>
+  <script>
+    // Acordeón: mostrar solo el plan seleccionado, cerrar si clickeas el mismo abierto
+    let planAbierto = 0;
+    function mostrarPlan(n) {
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById('plan'+i).classList.remove('active');
+        document.getElementById('btn'+i).classList.remove('active');
+      }
+      if(planAbierto === n){
+        planAbierto = 0;
+        return; // Si vuelves a hacer click, cierra
+      }
+      document.getElementById('plan'+n).classList.add('active');
+      document.getElementById('btn'+n).classList.add('active');
+      planAbierto = n;
+      setTimeout(function(){
+        document.getElementById('plan'+n).scrollIntoView({behavior:'smooth', block:'start'});
+      }, 150);
+    }
+    // Botón volver: ir a la página anterior real
+    function volver(){
+      if (window.history.length > 1) {
+        history.back();
+      } else {
+        window.location.href = "index.html";
+      }
+    }
+  </script>
+</body>
+</html>
